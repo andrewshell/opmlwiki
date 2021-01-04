@@ -4,7 +4,7 @@
   "description": "Render federated wikis as opml files",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon -e js,json,hbs index.js"
+    "start": "nodemon --ignore 'node_modules/*' -e js,json,hbs index.js"
   },
   "author": "Andrew Shell <andrew@andrewshell.org>",
   "license": "MIT",

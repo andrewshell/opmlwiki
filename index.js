@@ -18,7 +18,7 @@ app.get('/*', async (req, res) => {
         return res.send('Not found', 404, { contentType: 'text/plain' });
     }
 
-    const jstruct = await fedwiki.fetch(match[1]);
+    const jstruct = await fedwiki.fetch(match[1], match[2]);
 
     if (match[2] === 'opml') {
         return res.send(js2opml(jstruct), { contentType: 'text/xml' });
@@ -44,11 +44,21 @@ function js2opml(jstruct) {
         }
     };
 
-    for (let sub of jstruct.body.subs) {
-        obj.opml.body.outline.push({
-            $: sub
-        });
-    }
+    addSubs(jstruct.body.subs, obj.opml.body.outline);
 
     return builder.buildObject(obj);
+}
+
+function addSubs(subs, outline) {
+    for (let sub of subs) {
+        let i = outline.length;
+        outline.push({
+            $: Object.assign({}, sub)
+        });
+        if (sub.subs != null) {
+            delete outline[i].$.subs;
+            outline[i].outline = [];
+            addSubs(sub.subs, outline[i].outline);
+        }
+    }
 }
