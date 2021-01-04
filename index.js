@@ -3,19 +3,20 @@ const pureHttp = require('pure-http');
 const cors = require('cors');
 const fedwiki = require('./lib/fedwiki');
 const xml2js = require('xml2js');
+const fs = require('fs');
 
 const app = pureHttp();
 
 app.use(cors());
 
 app.get('/', (req, res) => {
-    res.send('Hello world');
+    res.send(fs.readFileSync('index.html', 'utf8'), { 'content-type': 'text/html' });
 });
 
 app.get('/*', async (req, res) => {
     const match = req.path.match(new RegExp('^/(.*)\\.(opml|json)$'))
     if (match == null) {
-        return res.send('Not found', 404, { contentType: 'text/plain' });
+        return res.send('Not found', 404, { 'content-type': 'text/plain' });
     }
 
     const jstruct = await fedwiki.fetch(match[1], match[2]);
@@ -34,7 +35,7 @@ app.get('/*', async (req, res) => {
     }
 
     if (match[2] === 'opml') {
-        return res.send(js2opml(jstruct), { contentType: 'text/xml' });
+        return res.send(js2opml(jstruct), { 'content-type': 'text/xml' });
     }
 
     return res.json(jstruct);
