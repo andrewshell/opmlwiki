@@ -19,11 +19,16 @@ app.get('/*', async (req, res) => {
         return res.send('Not found', 404, { 'content-type': 'text/plain' });
     }
 
+    let jstruct = {};
+
     try {
-        const jstruct = await fedwiki.fetch(match[1], match[2]);
+        jstruct = await fedwiki.fetch(match[1], match[2]);
     } catch (err) {
-        return res.send(err.message, 500);
+        console.error(err);
+        return res.send(err.message || 'Unknown Error', 500);
     }
+
+    console.log(jstruct);
 
     if (req.query.format === 'data') {
         let url = new URL(config.baseHref);
