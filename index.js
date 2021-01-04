@@ -27,7 +27,7 @@ app.get('/*', async (req, res) => {
             url: `${url.toString()}`,
             ct: 1,
             when: new Date(),
-            title: jstruct.title,
+            title: jstruct.head.title,
             description: '',
             socketserver: 'undefined'
         });
