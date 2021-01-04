@@ -28,8 +28,6 @@ app.get('/*', async (req, res) => {
         return res.send(err.message || 'Unknown Error', 500);
     }
 
-    console.log(jstruct);
-
     if (req.query.format === 'data') {
         let url = new URL(config.baseHref);
         url.pathname = req.path;
