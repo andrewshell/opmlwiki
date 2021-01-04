@@ -20,6 +20,19 @@ app.get('/*', async (req, res) => {
 
     const jstruct = await fedwiki.fetch(match[1], match[2]);
 
+    if (req.query.format === 'data') {
+        let url = new URL(config.baseHref);
+        url.pathname = req.path;
+        return res.json({
+            url: `${url.toString()}`,
+            ct: 1,
+            when: new Date(),
+            title: jstruct.title,
+            description: '',
+            socketserver: 'undefined'
+        });
+    }
+
     if (match[2] === 'opml') {
         return res.send(js2opml(jstruct), { contentType: 'text/xml' });
     }
