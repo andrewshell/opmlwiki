@@ -19,7 +19,11 @@ app.get('/*', async (req, res) => {
         return res.send('Not found', 404, { 'content-type': 'text/plain' });
     }
 
-    const jstruct = await fedwiki.fetch(match[1], match[2]);
+    try {
+        const jstruct = await fedwiki.fetch(match[1], match[2]);
+    } catch (err) {
+        return res.send(err.message, 500);
+    }
 
     if (req.query.format === 'data') {
         let url = new URL(config.baseHref);
