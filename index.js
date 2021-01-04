@@ -1,9 +1,12 @@
 const config = require('./config');
 const pureHttp = require('pure-http');
+const cors = require('cors');
 const fedwiki = require('./lib/fedwiki');
 const xml2js = require('xml2js');
 
 const app = pureHttp();
+
+app.use(cors());
 
 app.get('/', (req, res) => {
     res.send('Hello world');

@@ -9,6 +9,8 @@
   "author": "Andrew Shell <andrew@andrewshell.org>",
   "license": "MIT",
   "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "node-fetch": "^2.6.1",
     "pure-http": "^2.0.3",
     "xml2js": "^0.4.23"
